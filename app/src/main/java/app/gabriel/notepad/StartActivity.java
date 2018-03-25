@@ -9,11 +9,14 @@ import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import app.gabriel.notepad.user_sign.RegisterActivity;
+
 public class StartActivity extends AppCompatActivity {
 
     private Button btnLog, btnReg;
 
     private FirebaseAuth fAuth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,11 +28,11 @@ public class StartActivity extends AppCompatActivity {
 
        fAuth = FirebaseAuth.getInstance();
 
-       updateUI();
 
        btnLog.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
+               login();
 
            }
        });
@@ -37,12 +40,15 @@ public class StartActivity extends AppCompatActivity {
        btnReg.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
+               register();
 
            }
        });
     }
 
-    private void registrer(){
+    private void register(){
+        Intent regIntent = new Intent(StartActivity.this, RegisterActivity.class);
+        startActivity(regIntent);
 
     }
 
@@ -53,11 +59,11 @@ public class StartActivity extends AppCompatActivity {
     private void updateUI(){
         if(fAuth.getCurrentUser() != null){
             Log.i("StartActivity" , "fAuth != null");
-        }
-        else{
             Intent startIntent = new Intent(StartActivity.this, MainActivity.class);
             startActivity(startIntent);
             finish();
+        }
+        else{
             Log.i("MainActivity","fAuth == null");
         }
 
