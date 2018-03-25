@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import app.gabriel.notepad.user_sign.LoginActivity;
 import app.gabriel.notepad.user_sign.RegisterActivity;
 
 public class StartActivity extends AppCompatActivity {
@@ -53,6 +54,8 @@ public class StartActivity extends AppCompatActivity {
     }
 
     private void login(){
+        Intent logIntent = new Intent(StartActivity.this,LoginActivity.class);
+        startActivity(logIntent);
 
     }
 
