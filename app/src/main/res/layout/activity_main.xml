@@ -6,6 +6,11 @@
     android:layout_height="match_parent"
     tools:context="app.gabriel.notepad.MainActivity">
 
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:id="@+id/main_notes_layout"
+        android:layout_height="match_parent">
 
+    </android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>
