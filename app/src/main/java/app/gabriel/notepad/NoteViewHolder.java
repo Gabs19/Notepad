@@ -1,5 +1,6 @@
 package app.gabriel.notepad;
 
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.View;
 import android.widget.TextView;
@@ -13,6 +14,7 @@ public class NoteViewHolder extends ViewHolder {
     View view;
 
     TextView textTitle, textTime;
+    CardView noteCard;
 
     public NoteViewHolder(View itemView) {
         super(itemView);
@@ -21,6 +23,7 @@ public class NoteViewHolder extends ViewHolder {
 
         textTitle = (TextView) view.findViewById(R.id.note_title);
         textTime = (TextView)  view.findViewById(R.id.note_time);
+        noteCard = (CardView) view.findViewById( R.id.note_card );
     }
 
     public void setNoteTitle(String title){

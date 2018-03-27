@@ -17,9 +17,7 @@ public class NoteModel {
         this.noteTime = noteTime;
     }
 
-    public String getNoteTitle() {
-        return noteTitle;
-    }
+    public String getNoteTitle() { return noteTitle; }
 
     public void setNoteTitle(String noteTitle) {
         this.noteTitle = noteTitle;
@@ -32,4 +30,5 @@ public class NoteModel {
     public void setNoteTime(String noteTime) {
         this.noteTime = noteTime;
     }
+
 }

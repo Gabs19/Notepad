@@ -1,13 +1,16 @@
 package app.gabriel.notepad;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,11 +36,11 @@ public class MainActivity extends AppCompatActivity {
 
         mNotesList = (RecyclerView) findViewById( R.id.main_notes_layout );
 
-        gridLayoutManager = new GridLayoutManager( this,1, GridLayoutManager.VERTICAL,false );
+        gridLayoutManager = new GridLayoutManager( this,3, GridLayoutManager.VERTICAL,false );
 
         mNotesList.setHasFixedSize( true );
         mNotesList.setLayoutManager( gridLayoutManager );
-
+        mNotesList.addItemDecoration( new GridSpacingItemDecoration( 2, dpTopx(10),true ) );
 
         fAuth = FirebaseAuth.getInstance();
         if(fAuth.getCurrentUser() != null){
@@ -45,6 +48,11 @@ public class MainActivity extends AppCompatActivity {
         }
         updateUI();
 
+    }
+
+    private int dpTopx(int i) {
+        Resources r = getResources();
+        return Math.round( TypedValue.applyDimension( TypedValue.COMPLEX_UNIT_DIP, i , r.getDisplayMetrics()) );
     }
 
 
@@ -62,16 +70,30 @@ public class MainActivity extends AppCompatActivity {
                 ) {
             @Override
             protected void populateViewHolder(final NoteViewHolder viewHolder, NoteModel model, int position) {
-                String NoteId = getRef( position ).getKey();
+                final String NoteId = getRef( position ).getKey();
 
                 fNotesDatabase.child( NoteId ).addValueEventListener( new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        String title = dataSnapshot.child( "title" ).getValue().toString();
-                        String timestamp = dataSnapshot.child( "timestamp" ).getValue().toString();
+                        if (dataSnapshot.hasChild( "title" ) && dataSnapshot.hasChild( "timestamp" )){
 
-                        viewHolder.setNoteTitle( title );
-                        viewHolder.setNoteTime( timestamp );
+                            String title = dataSnapshot.child( "title" ).getValue().toString();
+                            String timestamp = dataSnapshot.child( "timestamp" ).getValue().toString();
+
+                            viewHolder.setNoteTitle( title );
+                            viewHolder.setNoteTime( timestamp );
+
+
+                            viewHolder.view.setOnClickListener( new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent intent = new Intent( MainActivity.this,NewNoteActivity.class );
+                                    intent.putExtra( "noteId",NoteId );
+                                    startActivity( intent );
+                                }
+                            } );
+                        }
+
                     }
 
                     @Override
@@ -121,4 +143,6 @@ public class MainActivity extends AppCompatActivity {
 
         return true;
     }
+
+
 }
