@@ -3,6 +3,8 @@
     package="app.gabriel.notepad">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+
 
     <application
         android:allowBackup="true"
@@ -29,6 +31,12 @@
             android:label="@string/sign_in" />
         <activity android:name=".NewNoteActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        
+        <service android:name=".FloatingWidgetServices"
+            android:enabled="true"
+            android:exported="false"
+            />
     </application>
+
 
 </manifest>
