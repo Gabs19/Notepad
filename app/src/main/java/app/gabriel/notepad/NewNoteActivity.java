@@ -189,8 +189,6 @@ public class NewNoteActivity extends AppCompatActivity {
              case android.R.id.home:
                  finish();
                  break;
-             case R.id.new_note_edit_btn:
-                 break;
              case R.id.new_note_delete_btn:
                  if(!noteID.equals( "no" )){
                      delete();
