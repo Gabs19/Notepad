@@ -132,6 +132,9 @@ public class NewNoteActivity extends AppCompatActivity {
                 fNotes.child( noteID ).updateChildren(update);
 
                 Toast.makeText( NewNoteActivity.this,"Nota Atualizada",Toast.LENGTH_LONG ).show();
+                Intent upIntent = new Intent( NewNoteActivity.this,MainActivity.class);
+                startActivity( upIntent );
+                finish();
             }
             else {
 

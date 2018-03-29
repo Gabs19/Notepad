@@ -8,12 +8,6 @@
         android:icon="@drawable/ic_cloud_circle_black_24dp"
         app:showAsAction="always"/>
 
-    <item
-        android:id="@+id/main_new_note_btn"
-        android:title="Nova Nota"
-        android:icon="@drawable/ic_add_circle_white_24dp"
-        app:showAsAction="always"
-        />
 
 
 </menu>

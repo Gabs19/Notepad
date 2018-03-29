@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth fAuth;
 
+    private FloatingActionButton floatBtn;
     private RecyclerView mNotesList;
     private GridLayoutManager gridLayoutManager;
     private DatabaseReference fNotesDatabase;
@@ -41,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        floatBtn = (FloatingActionButton) findViewById( R.id.float_btn );
 
         mNotesList = (RecyclerView) findViewById( R.id.main_notes_layout );
 
@@ -64,6 +68,13 @@ public class MainActivity extends AppCompatActivity {
             super.onOptionsItemSelected( (MenuItem) item );
         }
 
+        floatBtn.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent newnote = new Intent( MainActivity.this,NewNoteActivity.class );
+                startActivity( newnote );
+            }
+        } );
         updateUI();
 
     }
@@ -165,10 +176,10 @@ public class MainActivity extends AppCompatActivity {
         super.onOptionsItemSelected(item);
 
         switch (item.getItemId()){
-            case R.id.main_new_note_btn:
-                Intent intent = new Intent(MainActivity.this, NewNoteActivity.class);
-                startActivity(intent);
-                break;
+//            case R.id.main_new_note_btn:
+//                Intent intent = new Intent(MainActivity.this, NewNoteActivity.class);
+//                startActivity(intent);
+//                break;
             case R.id.main_ballon_btn:
                 Intent intentl = new Intent( MainActivity.this,  FloatingWidgetServices.class );
                 startService(intentl);
@@ -190,6 +201,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText( MainActivity.this,"Draw over other app permission not enable.",Toast.LENGTH_SHORT ).show();
         }
     }
+
 
 
 }
