@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent newnote = new Intent( MainActivity.this,NewNoteActivity.class );
                 startActivity( newnote );
+                finish();
             }
         } );
         updateUI();
@@ -176,10 +177,6 @@ public class MainActivity extends AppCompatActivity {
         super.onOptionsItemSelected(item);
 
         switch (item.getItemId()){
-//            case R.id.main_new_note_btn:
-//                Intent intent = new Intent(MainActivity.this, NewNoteActivity.class);
-//                startActivity(intent);
-//                break;
             case R.id.main_ballon_btn:
                 Intent intentl = new Intent( MainActivity.this,  FloatingWidgetServices.class );
                 startService(intentl);

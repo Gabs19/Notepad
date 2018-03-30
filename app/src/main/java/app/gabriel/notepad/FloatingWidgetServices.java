@@ -15,7 +15,7 @@ import android.widget.ImageView;
  * Created by Gabriel on 27/03/2018.
  */
 
-public class FloatingWidgetServices extends Service implements View.OnClickListener {
+public class FloatingWidgetServices extends Service {
 
     private WindowManager windowManager;
     private View mFloat;
@@ -48,11 +48,7 @@ public class FloatingWidgetServices extends Service implements View.OnClickListe
 
         LayoutInflater inflater = (LayoutInflater) getSystemService( LAYOUT_INFLATER_SERVICE );
 
-        implementClickListerner();
-
-
-        final View collapsedView = mFloat.findViewById( R.id.collapse_view );
-        final View expandedView = mFloat.findViewById( R.id.expanded_container );
+        final View collapsedView = mFloat.findViewById( R.id.open_btn );
 
         ImageView closeBtn = (ImageView) mFloat.findViewById( R.id.close_btn );
 
@@ -63,15 +59,19 @@ public class FloatingWidgetServices extends Service implements View.OnClickListe
             }
         } );
 
-        ImageView closeButton = (ImageView) mFloat.findViewById( R.id.close_button );
-        closeButton.setOnClickListener( new View.OnClickListener() {
+        ImageView openBtn = (ImageView) mFloat.findViewById( R.id.open_btn );
+
+        openBtn.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                collapsedView.setVisibility( View.VISIBLE );
-                expandedView.setVisibility( View.GONE );
+                Intent intent = new Intent( FloatingWidgetServices.this, MainActivity.class );
+                intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
+                startActivity( intent );
+
+                stopSelf();
 
             }
-        } );
+        } ) ;
 
 
         mFloat.findViewById( R.id.root_container ).setOnTouchListener( new View.OnTouchListener() {
@@ -94,8 +94,7 @@ public class FloatingWidgetServices extends Service implements View.OnClickListe
                         int Ydiff = (int) (event.getRawY() - initialTouchY);
                         if (Xdiff < 10 && Ydiff < 10) {
                             if (isViewCollapsed()) {
-                                collapsedView.setVisibility( View.GONE );
-                                expandedView.setVisibility( View.VISIBLE );
+                                collapsedView.setVisibility( View.VISIBLE );
                             }
                         }
                         return true;
@@ -110,28 +109,13 @@ public class FloatingWidgetServices extends Service implements View.OnClickListe
         } );
 
 
+
     }
 
     private boolean isViewCollapsed() {
-        return mFloat == null || mFloat.findViewById(R.id.collapse_view).getVisibility() == View.VISIBLE;
-    }
-    private void implementClickListerner(){
-        mFloat.findViewById(R.id.open_btn).setOnClickListener( (View.OnClickListener) this );
 
+        return mFloat == null || mFloat.findViewById(R.id.open_btn).getVisibility() == View.VISIBLE;
 
-    }
-
-    @Override
-    public void onClick(View view){
-        switch (view.getId()){
-            case R.id.open_btn:
-                Intent intent = new Intent( FloatingWidgetServices.this, MainActivity.class );
-                intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
-                startActivity( intent );
-
-                stopSelf();
-                break;
-        }
     }
 
     @Override

@@ -123,11 +123,14 @@ public class NewNoteActivity extends AppCompatActivity {
 
             if(isExist){
                //Update a note
+
                 Map update = new HashMap();
+
 
                 update.put( "title",eTitle.getText().toString().trim() );
                 update.put( "content", eContent.getText().toString().trim());
                 update.put( "timestamp", ServerValue.TIMESTAMP);
+
 
                 fNotes.child( noteID ).updateChildren(update);
 
