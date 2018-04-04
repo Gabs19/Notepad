@@ -24,6 +24,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
@@ -52,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
 
         mNotesList.setHasFixedSize( true );
         mNotesList.setLayoutManager( gridLayoutManager );
+//        gridLayoutManager.setReverseLayout( true );
+//        gridLayoutManager.setStackFromEnd( true );
         mNotesList.addItemDecoration( new GridSpacingItemDecoration( 2, dpTopx(10),true ) );
 
         fAuth = FirebaseAuth.getInstance();
@@ -78,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
         } );
         updateUI();
 
+        LoadData();
+
     }
 
     private void initializeView(){
@@ -96,18 +101,18 @@ public class MainActivity extends AppCompatActivity {
         return Math.round( TypedValue.applyDimension( TypedValue.COMPLEX_UNIT_DIP, i , r.getDisplayMetrics()) );
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
+    private void LoadData(){
+
+        Query query = fNotesDatabase.orderByChild( "timestamp" );
 
         FirebaseRecyclerAdapter<NoteModel, NoteViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<NoteModel, NoteViewHolder>(
                 NoteModel.class,
-                        R.layout.single_note_layout,
+                R.layout.single_note_layout,
                 NoteViewHolder.class,
-                        fNotesDatabase
+                query
 
 
-                ) {
+        ) {
             @Override
             protected void populateViewHolder(final NoteViewHolder viewHolder, NoteModel model, int position) {
                 final String NoteId = getRef( position ).getKey();
@@ -121,8 +126,10 @@ public class MainActivity extends AppCompatActivity {
                             String timestamp = dataSnapshot.child( "timestamp" ).getValue().toString();
 
                             viewHolder.setNoteTitle( title );
-                            viewHolder.setNoteTime( timestamp );
+//                            viewHolder.setNoteTime( timestamp );
 
+                            GetTImeAgo getTimeAgo = new GetTImeAgo();
+                            viewHolder.setNoteTime(getTimeAgo.getTimeAgo( Long.parseLong( timestamp ),getApplicationContext() ));
 
                             viewHolder.view.setOnClickListener( new View.OnClickListener() {
                                 @Override
@@ -144,10 +151,13 @@ public class MainActivity extends AppCompatActivity {
 
             }
         };
-
-         mNotesList.setAdapter( firebaseRecyclerAdapter );
+        mNotesList.setAdapter( firebaseRecyclerAdapter );
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
 
     private void updateUI() {
 
@@ -182,6 +192,12 @@ public class MainActivity extends AppCompatActivity {
                 startService(intentl);
                 finish();
                 break;
+             case R.id.btn_log_out:
+                 FirebaseAuth.getInstance().signOut();
+                 finish();
+                 Intent logout = new Intent( this,StartActivity.class );
+                 break;
+
         }
 
         return true;

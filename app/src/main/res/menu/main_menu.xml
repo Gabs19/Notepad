@@ -8,6 +8,13 @@
         android:icon="@drawable/ic_cloud_circle_black_24dp"
         app:showAsAction="always"/>
 
+    <item
+        android:id="@+id/btn_log_out"
+        android:title="get_out"
+        android:icon="@drawable/ic_reply_black_24dp"
+        app:showAsAction="always"
+        />
+
 
 
 </menu>

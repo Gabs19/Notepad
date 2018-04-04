@@ -40,9 +40,19 @@ public class NewNoteActivity extends AppCompatActivity {
     private DatabaseReference fNotes;
 
     private Menu mainMenu;
-    private String noteID = "no";
+    private String noteID;
 
     private boolean isExist;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu( menu );
+
+        getMenuInflater().inflate( R.menu.new_note_menu, menu );
+        mainMenu = menu;
+
+        return true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,13 +61,13 @@ public class NewNoteActivity extends AppCompatActivity {
 
         try {
             noteID = getIntent().getStringExtra("noteId");
-            if(noteID.equals( "no" )){
-                isExist = false;
-                mainMenu.getItem( 0 ).setVisible(false);
-            }
-            else {
+
+           if(!noteID.trim().equals( "" )){
                 isExist = true;
-            }
+           }
+           else{
+               isExist = false;
+           }
         }
         catch (Exception e){
             e.printStackTrace();
@@ -137,7 +147,6 @@ public class NewNoteActivity extends AppCompatActivity {
                 Toast.makeText( NewNoteActivity.this,"Nota Atualizada",Toast.LENGTH_LONG ).show();
                 Intent upIntent = new Intent( NewNoteActivity.this,MainActivity.class);
                 startActivity( upIntent );
-                finish();
             }
             else {
 
@@ -178,16 +187,6 @@ public class NewNoteActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu( menu );
-
-        getMenuInflater().inflate( R.menu.new_note_menu, menu );
-        mainMenu = menu;
-
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
          super.onOptionsItemSelected( item );
 
@@ -196,8 +195,10 @@ public class NewNoteActivity extends AppCompatActivity {
                  finish();
                  break;
              case R.id.new_note_delete_btn:
-                 if(!noteID.equals( "no" )){
+                 if(isExist){
                      delete();
+                 }else{
+                     Toast.makeText( this,"Não a nada para deletar",Toast.LENGTH_SHORT ).show();
                  }
                  break;
          }
