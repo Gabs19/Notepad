@@ -45,24 +45,13 @@ public class NewNoteActivity extends AppCompatActivity {
     private boolean isExist;
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu( menu );
-
-        getMenuInflater().inflate( R.menu.new_note_menu, menu );
-        mainMenu = menu;
-
-        return true;
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_note);
 
         try {
             noteID = getIntent().getStringExtra("noteId");
-
-           if(!noteID.trim().equals( "" )){
+           if(!noteID.trim ().equals ( "" )){
                 isExist = true;
            }
            else{
@@ -187,6 +176,16 @@ public class NewNoteActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu( menu );
+
+        getMenuInflater().inflate( R.menu.new_note_menu, menu );
+        mainMenu = menu;
+
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
          super.onOptionsItemSelected( item );
 
@@ -197,7 +196,8 @@ public class NewNoteActivity extends AppCompatActivity {
              case R.id.new_note_delete_btn:
                  if(isExist){
                      delete();
-                 }else{
+                 }
+                 else{
                      Toast.makeText( this,"Não a nada para deletar",Toast.LENGTH_SHORT ).show();
                  }
                  break;

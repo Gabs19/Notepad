@@ -53,8 +53,6 @@ public class MainActivity extends AppCompatActivity {
 
         mNotesList.setHasFixedSize( true );
         mNotesList.setLayoutManager( gridLayoutManager );
-//        gridLayoutManager.setReverseLayout( true );
-//        gridLayoutManager.setStackFromEnd( true );
         mNotesList.addItemDecoration( new GridSpacingItemDecoration( 2, dpTopx(10),true ) );
 
         fAuth = FirebaseAuth.getInstance();
@@ -81,8 +79,6 @@ public class MainActivity extends AppCompatActivity {
         } );
         updateUI();
 
-        LoadData();
-
     }
 
     private void initializeView(){
@@ -101,18 +97,21 @@ public class MainActivity extends AppCompatActivity {
         return Math.round( TypedValue.applyDimension( TypedValue.COMPLEX_UNIT_DIP, i , r.getDisplayMetrics()) );
     }
 
-    private void LoadData(){
+    @Override
+    public void onStart() {
+        super.onStart();
 
-        Query query = fNotesDatabase.orderByChild( "timestamp" );
+        Query query = fNotesDatabase.orderByChild ( "timestamp" );
+
 
         FirebaseRecyclerAdapter<NoteModel, NoteViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<NoteModel, NoteViewHolder>(
                 NoteModel.class,
-                R.layout.single_note_layout,
+                        R.layout.single_note_layout,
                 NoteViewHolder.class,
-                query
+                        query
 
 
-        ) {
+                ) {
             @Override
             protected void populateViewHolder(final NoteViewHolder viewHolder, NoteModel model, int position) {
                 final String NoteId = getRef( position ).getKey();
@@ -126,10 +125,9 @@ public class MainActivity extends AppCompatActivity {
                             String timestamp = dataSnapshot.child( "timestamp" ).getValue().toString();
 
                             viewHolder.setNoteTitle( title );
-//                            viewHolder.setNoteTime( timestamp );
+                            TimeAgo getTimeAgo = new TimeAgo ();
+                            viewHolder.setNoteTime ( getTimeAgo.getTimeAgo ( Long.parseLong ( timestamp ),getApplicationContext () ) );
 
-                            GetTImeAgo getTimeAgo = new GetTImeAgo();
-                            viewHolder.setNoteTime(getTimeAgo.getTimeAgo( Long.parseLong( timestamp ),getApplicationContext() ));
 
                             viewHolder.view.setOnClickListener( new View.OnClickListener() {
                                 @Override
@@ -151,13 +149,10 @@ public class MainActivity extends AppCompatActivity {
 
             }
         };
-        mNotesList.setAdapter( firebaseRecyclerAdapter );
+
+         mNotesList.setAdapter( firebaseRecyclerAdapter );
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
 
     private void updateUI() {
 
@@ -192,17 +187,10 @@ public class MainActivity extends AppCompatActivity {
                 startService(intentl);
                 finish();
                 break;
-             case R.id.btn_log_out:
-                 FirebaseAuth.getInstance().signOut();
-                 finish();
-                 Intent logout = new Intent( this,StartActivity.class );
-                 break;
-
         }
 
         return true;
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

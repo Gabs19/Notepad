@@ -20,54 +20,54 @@ public class StartActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_start);
+    protected void onCreate (Bundle savedInstanceState) {
+        super.onCreate ( savedInstanceState );
+        setContentView ( R.layout.activity_start );
 
-       btnLog = (Button) findViewById(R.id.start_log_btn);
-       btnReg = (Button) findViewById(R.id.start_reg_btn);
+        btnLog = ( Button ) findViewById ( R.id.start_log_btn );
+        btnReg = ( Button ) findViewById ( R.id.start_reg_btn );
 
-       fAuth = FirebaseAuth.getInstance();
+        fAuth = FirebaseAuth.getInstance ();
 
 
-       btnLog.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               login();
+        btnLog.setOnClickListener ( new View.OnClickListener () {
+            @Override
+            public void onClick (View view) {
+                login ();
 
-           }
-       });
+            }
+        } );
 
-       btnReg.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               register();
+        btnReg.setOnClickListener ( new View.OnClickListener () {
+            @Override
+            public void onClick (View view) {
+                register ();
 
-           }
-       });
+            }
+        } );
     }
 
-    private void register(){
-        Intent regIntent = new Intent(StartActivity.this, RegisterActivity.class);
-        startActivity(regIntent);
-
-    }
-
-    private void login(){
-        Intent logIntent = new Intent(StartActivity.this,LoginActivity.class);
-        startActivity(logIntent);
+    private void register () {
+        Intent regIntent = new Intent ( StartActivity.this , RegisterActivity.class );
+        startActivity ( regIntent );
 
     }
 
-    private void updateUI(){
-        if(fAuth.getCurrentUser() != null){
-            Log.i("StartActivity" , "fAuth != null");
-            Intent startIntent = new Intent(StartActivity.this, MainActivity.class);
-            startActivity(startIntent);
-            finish();
+    private void login () {
+        Intent logIntent = new Intent ( StartActivity.this , LoginActivity.class );
+        startActivity ( logIntent );
+
+    }
+
+    private void updateUI () {
+        if ( fAuth.getCurrentUser () != null ) {
+            Log.i ( "StartActivity" , "fAuth != null" );
+            Intent startIntent = new Intent ( StartActivity.this , MainActivity.class );
+            startActivity ( startIntent );
+            finish ();
         }
-        else{
-            Log.i("MainActivity","fAuth == null");
+        else {
+            Log.i ( "MainActivity" , "fAuth == null" );
         }
 
     }
